@@ -1,0 +1,16 @@
+#!/bin/bash
+
+file=$1
+check="$(tail -1 $file)"
+
+
+if [ "$check" == "end" ]
+then
+	exit 1
+else
+	echo "end" >> $file
+	exit 0
+fi
+
+#grep -q "end" "$file" && echo $?
+

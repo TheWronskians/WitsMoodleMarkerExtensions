@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="mod/assign/feedback/witsoj/db" VERSION="20000000" COMMENT="XMLDB file for Moodle mod/assign/feedback/witsoj"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="assignfeedback_witsoj" COMMENT="Text feedback for OJ submitted assignments">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="assignment" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="grade" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="commenttext" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="The feedback text"/>
+        <FIELD NAME="commentformat" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The feedback text format"/>
+        <FIELD NAME="ojtests" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Test Cases Passed as JSON array"/>
+        <FIELD NAME="ojfeedback" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Test Case Feedback as JSON array"/>
+        <FIELD NAME="status" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="PENDING/JUDGING/CE/PE/ACCEPTED/INCORRECT"/>
+        <FIELD NAME="markerid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="If judging which marker?"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Time when sent to the marker or grade returned."/>
+        <FIELD NAME="assignmentcontextid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="language" TYPE="char" LENGTH="32" NOTNULL="true" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="The unique id for this feedback"/>
+        <KEY NAME="assignment" TYPE="foreign" FIELDS="assignment" REFTABLE="assign" REFFIELDS="id" COMMENT="The assignment instance this feedback relates to."/>
+        <KEY NAME="grade" TYPE="foreign" FIELDS="grade" REFTABLE="assign_grades" REFFIELDS="id" COMMENT="The grade instance this feedback relates to."/>
+        <KEY NAME="marker" TYPE="foreign" FIELDS="markerid" REFTABLE="assignfeedback_witsoj_mkr" REFFIELDS="id" COMMENT="The marker."/>
+        <KEY NAME="assignmentcontextid" TYPE="foreign" FIELDS="assignmentcontextid" REFTABLE="course_modules" REFFIELDS="id" COMMENT="Module ID to reload assignment."/>
+        <KEY NAME="userid" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id" COMMENT="User ID."/>
+	<KEY NAME="language" TYPE="foreign" FIELDS="language" REFTABLE="assignfeedback_witsoj_langs" REFFIELDS="language" COMMENT="Required Language."/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="assignfeedback_witsoj_mkr" COMMENT="Text feedback for OJ submitted assignments">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="name" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Marker Name"/>
+        <FIELD NAME="url" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Marker URL"/>
+        <FIELD NAME="lastseen" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0" SEQUENCE="false" COMMENT="Time when the last marker interaction took place."/>
+        <FIELD NAME="status" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Marker Name"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="The unique id for this feedback"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="assignfeedback_witsoj_langs" COMMENT="Marker Language Capabilities">
+      <FIELDS>
+        <FIELD NAME="markerid" TYPE="int" LENGTH="10" NOTNULL="true" COMMENT="Marker ID"/>
+        <FIELD NAME="language" TYPE="char" LENGTH="32" NOTNULL="false" SEQUENCE="false" COMMENT="Language"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="markerid,language" COMMENT="Composite primary key"/>
+	<KEY NAME="markerid" TYPE="foreign" FIELDS="markerid" REFTABLE="assignfeedback_witsoj_mkr" REFFIELDS="id" COMMENT="Marker"/>
+      </KEYS>
+    </TABLE>
+  </TABLES>
+</XMLDB>

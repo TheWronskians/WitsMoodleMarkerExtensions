@@ -1,0 +1,7 @@
+update text
+[{"stdout":"","stderr":"source.cpp:11:1: error: expected ';' before 'int'\n int main(){\n ^~~\ncompilation terminated due to -Wfatal-errors.\n","result":2,"exec":"cd \/tmp\/marker2\/1\/cpp\/14\/20180924-180046-5ba9264eec4219.61048569; g++ -Wfatal-errors -std=c++11 -o source.out source.cpp -lm","oj_feedback":"Compile Error"}]
+[{"stdout":"","stderr":"source.cpp:1:10: fatal error: linkedlist.h: No such file or directory\n #include \"linkedlist.h\"\n          ^~~~~~~~~~~~~~\ncompilation terminated.\n","result":2,"exec":"cd \/tmp\/marker2\/1\/cpp\/2\/20180920-113810-5ba386a269f832.07067605; g++ -Wfatal-errors -std=c++11 -o source.out source.cpp -lm","oj_feedback":"Compile Error"}]
+if there is a compile error, i.e if status = 2; -> meaning compile error we want to show this to the user
+
+
+source.cpp:11:1: error: expected ';' before 'int'\n int main(){\n ^~~\ncompilation terminated due to -Wfatal-errors.\n"
